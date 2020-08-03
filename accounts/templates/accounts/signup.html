@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container text-center">
+    {% if error %}
+     <h4 style="color: brown;">{{error}}</h4> 
+    <br>
+    {% endif %}
+    <h1>Sign up</h1>
+    <form class="col-md-6 offset-md-3" method="POST" action="{% url 'signupurl' %}">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="exampleInputEmail1">Email address</label>
+          <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+          <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Password</label>
+          <input type="password" name="password" class="form-control" id="exampleInputPassword1">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Confirm Password</label>
+          <input type="password" name="confirmpassword" class="form-control" id="exampleInputPassword1">
+        </div>
+        
+        <input type="submit" value="Signup" class="btn btn-success">
+      </form>
+</div>
+{% endblock %}
