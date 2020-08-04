@@ -54,9 +54,17 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav ml-auto">
+                        {% if user.is_authenticated %}
+                        <a class="nav-item nav-link" href="javascript:{document.getElementById('logout').submit()}">Logout</a>
+                        <form id="logout" method="POST" action="{% url 'logouturl' %}">
+                            {% csrf_token %}
+                            <input type="hidden" />
 
-                        <a class="nav-item nav-link" href="">Sign Up</a>
-                        <a class="nav-item nav-link" href="">Login</a>
+                        </form>
+                        {% else %}
+                            <a class="nav-item nav-link" href="{% url 'signupurl' %}">Sign Up</a>
+                            <a class="nav-item nav-link" href="{% url 'loginurl' %}">Login</a>
+                        {% endif %}
 
                     </div>
                 </div>
@@ -73,9 +81,9 @@
     <footer class="text-muted">
         <div class="container text-center">
             <p class="float-right">
-                <a href="#">Back to top</a>
+                <p>Happy {% now "Y" %}</p> 
             </p>
-            <p>Happy {% now "Y" %}</p>
+            
         </div>
     </footer>
 
