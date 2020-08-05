@@ -5,10 +5,11 @@ from django.utils import timezone
 # Create your views here.
 
 def home(request):
-    return render(request,'products/home.html')
+    products=Product.objects
+    return render(request,'products/home.html',{'products':products})
 
 
-@login_required #if user not loged in then it will send them back to home page
+@login_required(login_url="/accounts/signup")#if user not loged in then it will send them back to signup page
 def create(request):
     if request.method == 'POST':
         title=request.POST['title']
@@ -42,5 +43,15 @@ def create(request):
 def detail(request,product_id):
     product=get_object_or_404(Product,pk=product_id)
     return render(request,'products/detail.html',{'product':product})
+
+@login_required(login_url="/accounts/signup") #if user not loged in then it will send them back to signup page
+def upvote(request,product_id):
+    if request.method == 'POST':
+        product=get_object_or_404(Product,pk=product_id)
+        product.votes_total+=1
+        product.save()
+        return redirect('/products/'+str(product.id))
+
+    
 
 

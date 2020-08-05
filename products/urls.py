@@ -21,4 +21,5 @@ urlpatterns = [
    
     path('create', views.create,name='createurl'),
     path('<int:product_id>', views.detail,name='detailurl'),
+    path('<int:product_id>/upvote', views.upvote,name='upvoteurl'),
 ]
