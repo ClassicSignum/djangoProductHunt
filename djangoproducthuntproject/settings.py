@@ -134,3 +134,7 @@ STATICFILES_DIRS = [
 STATIC_ROOT = os.path.join(BASE_DIR,'static')
 STATIC_URL = '/static/'
  # after this in command line 'python manage.py collectstatic'
+
+
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+MEDIA_URL = '/media/'

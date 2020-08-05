@@ -1,6 +1,46 @@
-from django.shortcuts import render
-
+from django.shortcuts import render,redirect,get_object_or_404
+from django.contrib.auth.decorators import login_required
+from .models import Product
+from django.utils import timezone
 # Create your views here.
 
 def home(request):
     return render(request,'products/home.html')
+
+
+@login_required #if user not loged in then it will send them back to home page
+def create(request):
+    if request.method == 'POST':
+        title=request.POST['title']
+        body=request.POST['body']
+        url=request.POST['url']
+        icon=request.FILES['icon']
+        image=request.FILES['image']
+
+        if title and body and url and icon and image:
+            product=Product()
+            product.title=title
+            product.body=body
+            if url.startswith('http://') or url.startswith('https://'):
+                product.url=url
+            else:
+                product.url='http://'+url
+            product.icon=request.FILES['icon']
+            product.image=request.FILES['image']
+            product.pub_date=timezone.datetime.now()
+            product.hunter=request.user # the user who is loged in
+            product.save()
+            return redirect('/products/'+str(product.id))
+                    
+        else:
+            return render(request,'products/create.html',{'error':'All fields are required'})
+
+    else:
+        return render(request,'products/create.html')
+
+
+def detail(request,product_id):
+    product=get_object_or_404(Product,pk=product_id)
+    return render(request,'products/detail.html',{'product':product})
+
+
